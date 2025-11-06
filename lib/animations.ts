@@ -193,7 +193,6 @@ export const scrollFadeIn: Variants = {
     y: 0,
     transition: { duration: 0.6, ease: easings.smooth },
   },
-  viewport: { once: true, amount: 0.3 },
 }
 
 export const scrollSlideLeft: Variants = {
@@ -203,7 +202,6 @@ export const scrollSlideLeft: Variants = {
     x: 0,
     transition: { duration: 0.8, ease: easings.elegant },
   },
-  viewport: { once: true, amount: 0.3 },
 }
 
 export const scrollSlideRight: Variants = {
@@ -213,7 +211,6 @@ export const scrollSlideRight: Variants = {
     x: 0,
     transition: { duration: 0.8, ease: easings.elegant },
   },
-  viewport: { once: true, amount: 0.3 },
 }
 
 // ============================================
@@ -337,8 +334,9 @@ export const heroCTA: Variants = {
     opacity: 1,
     scale: 1,
     transition: {
-      duration: 0.6,
-      ease: easings.spring,
+      type: "spring",
+      stiffness: 300,
+      damping: 30,
       delay: 0.8,
     },
   },
