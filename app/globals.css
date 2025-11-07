@@ -1,0 +1,309 @@
+@import "tailwindcss";
+
+/* ============================================ */
+/* DESIGN SYSTEM 2025 - BARBERSHOPP PREMIUM   */
+/* ============================================ */
+
+:root {
+  /* Fonts */
+  --font-inter: 'Inter', system-ui, sans-serif;
+  --font-playfair: 'Playfair Display', Georgia, serif;
+  --font-bodoni: 'Bodoni Moda', Georgia, serif;
+  --font-jetbrains: 'JetBrains Mono', monospace;
+
+  /* Primary - Deep Navy (Enhanced with full scale) */
+  --primary-50: rgb(240, 242, 245);
+  --primary-100: rgb(220, 225, 232);
+  --primary-200: rgb(180, 190, 205);
+  --primary-300: rgb(140, 155, 178);
+  --primary-400: rgb(100, 120, 150);
+  --primary-500: rgb(10, 22, 40);
+  --primary-600: rgb(8, 18, 32);
+  --primary-700: rgb(6, 14, 24);
+  --primary-800: rgb(4, 10, 16);
+  --primary-900: rgb(2, 5, 8);
+
+  /* Mocha - Pantone 2025 Color of the Year */
+  --mocha-50: rgb(250, 245, 240);
+  --mocha-100: rgb(240, 220, 200);
+  --mocha-200: rgb(220, 180, 150);
+  --mocha-300: rgb(200, 140, 100);
+  --mocha-400: rgb(180, 100, 60);
+  --mocha-500: rgb(139, 69, 19);
+  --mocha-600: rgb(110, 55, 15);
+  --mocha-700: rgb(80, 40, 10);
+  --mocha-800: rgb(60, 30, 10);
+  --mocha-900: rgb(40, 20, 5);
+
+  /* Beige Cream (Enhanced) */
+  --cream-50: rgb(255, 252, 248);
+  --cream-100: rgb(252, 248, 242);
+  --cream-200: rgb(248, 242, 232);
+  --cream-300: rgb(245, 235, 220);
+  --cream-400: rgb(245, 232, 214);
+  --cream-500: rgb(245, 230, 211);
+  --cream-600: rgb(220, 207, 190);
+  --cream-700: rgb(195, 184, 169);
+  --cream-800: rgb(170, 161, 148);
+  --cream-900: rgb(145, 138, 127);
+
+  /* Jewel Tones - Luxury Accents */
+  --emerald: rgb(16, 185, 129);
+  --sapphire: rgb(59, 130, 246);
+  --ruby: rgb(239, 68, 68);
+  --gold: rgb(234, 179, 8);
+  --amber: rgb(245, 158, 11);
+
+  /* Glassmorphism */
+  --glass-bg: rgba(245, 230, 211, 0.05);
+  --glass-border: rgba(245, 230, 211, 0.15);
+  --glass-shadow: 0 8px 32px 0 rgba(10, 22, 40, 0.15);
+
+  /* Shadows - Enhanced */
+  --shadow-sm: 0 1px 2px 0 rgba(10, 22, 40, 0.05);
+  --shadow-md: 0 4px 6px -1px rgba(10, 22, 40, 0.1);
+  --shadow-lg: 0 10px 15px -3px rgba(10, 22, 40, 0.1);
+  --shadow-xl: 0 20px 25px -5px rgba(10, 22, 40, 0.15);
+  --shadow-2xl: 0 25px 50px -12px rgba(10, 22, 40, 0.25);
+  --shadow-glow: 0 0 30px rgba(139, 69, 19, 0.4);
+
+  /* Gradients */
+  --gradient-gentleman: linear-gradient(135deg, rgb(10, 22, 40) 0%, rgb(139, 69, 19) 100%);
+  --gradient-cream: linear-gradient(135deg, rgb(245, 230, 211) 0%, rgb(220, 207, 190) 100%);
+  --gradient-gold: linear-gradient(135deg, rgb(234, 179, 8) 0%, rgb(245, 158, 11) 100%);
+  --gradient-emerald: linear-gradient(135deg, rgb(16, 185, 129) 0%, rgb(5, 150, 105) 100%);
+
+  /* Blur amounts */
+  --blur-sm: 8px;
+  --blur-md: 16px;
+  --blur-lg: 24px;
+  --blur-xl: 40px;
+}
+
+body {
+  font-family: var(--font-inter);
+  font-feature-settings: "kern" 1, "liga" 1, "calt" 1;
+}
+
+/* Typography */
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-playfair);
+}
+
+/* ============================================ */
+/* UTILITY CLASSES PREMIUM 2025               */
+/* ============================================ */
+
+/* Glassmorphism Premium */
+.glass-premium {
+  background: var(--glass-bg);
+  backdrop-filter: blur(var(--blur-lg)) saturate(180%);
+  -webkit-backdrop-filter: blur(var(--blur-lg)) saturate(180%);
+  border: 1px solid var(--glass-border);
+  box-shadow: var(--glass-shadow), inset 0 1px 0 0 rgba(255, 255, 255, 0.05);
+}
+
+.glass-dark {
+  background: rgba(10, 22, 40, 0.7);
+  backdrop-filter: blur(var(--blur-xl)) saturate(150%);
+  -webkit-backdrop-filter: blur(var(--blur-xl)) saturate(150%);
+  border: 1px solid rgba(245, 230, 211, 0.1);
+}
+
+/* 3D Transform Utilities */
+.preserve-3d {
+  transform-style: preserve-3d;
+}
+
+.perspective-1000 {
+  perspective: 1000px;
+}
+
+.perspective-2000 {
+  perspective: 2000px;
+}
+
+/* Hover Effects */
+.hover-lift {
+  transition: transform 0.3s cubic-bezier(0.23, 1, 0.32, 1), box-shadow 0.3s ease;
+}
+
+.hover-lift:hover {
+  transform: translateY(-8px);
+  box-shadow: var(--shadow-2xl);
+}
+
+.hover-lift-3d {
+  transform-style: preserve-3d;
+  transition: transform 0.4s cubic-bezier(0.23, 1, 0.32, 1);
+}
+
+.hover-lift-3d:hover {
+  transform: perspective(1000px) rotateX(5deg) rotateY(-5deg) translateZ(20px);
+}
+
+/* Glow Effects */
+.glow-cognac {
+  box-shadow: var(--shadow-glow);
+}
+
+.glow-gold {
+  box-shadow: 0 0 30px rgba(234, 179, 8, 0.4);
+}
+
+.glow-emerald {
+  box-shadow: 0 0 30px rgba(16, 185, 129, 0.4);
+}
+
+/* Gradient Text */
+.text-gradient-gentleman {
+  background: var(--gradient-gentleman);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.text-gradient-gold {
+  background: var(--gradient-gold);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.text-gradient-cream {
+  background: var(--gradient-cream);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* 3D Typography */
+.text-3d {
+  text-shadow:
+    1px 1px 0 var(--mocha-300),
+    2px 2px 0 var(--mocha-400),
+    3px 3px 0 var(--mocha-500),
+    4px 4px 8px rgba(10, 22, 40, 0.3);
+}
+
+.text-3d-light {
+  text-shadow:
+    1px 1px 0 rgba(255, 255, 255, 0.1),
+    2px 2px 0 rgba(255, 255, 255, 0.08),
+    3px 3px 0 rgba(255, 255, 255, 0.06);
+}
+
+/* Shimmer Animation */
+.shimmer {
+  background: linear-gradient(
+    90deg,
+    rgba(245, 230, 211, 0.1) 0%,
+    rgba(245, 230, 211, 0.3) 50%,
+    rgba(245, 230, 211, 0.1) 100%
+  );
+  background-size: 200% 100%;
+  animation: shimmer 3s infinite linear;
+}
+
+@keyframes shimmer {
+  0% {
+    background-position: 200% center;
+  }
+  100% {
+    background-position: -200% center;
+  }
+}
+
+/* Floating Animation */
+.float {
+  animation: float 4s ease-in-out infinite;
+}
+
+@keyframes float {
+  0%, 100% {
+    transform: translateY(0) translateZ(0);
+  }
+  50% {
+    transform: translateY(-20px) translateZ(10px);
+  }
+}
+
+/* Pulse Glow */
+.pulse-glow {
+  animation: pulse-glow 2s ease-in-out infinite;
+}
+
+@keyframes pulse-glow {
+  0%, 100% {
+    box-shadow: 0 0 20px rgba(139, 69, 19, 0.3);
+  }
+  50% {
+    box-shadow: 0 0 40px rgba(139, 69, 19, 0.6);
+  }
+}
+
+/* Magnetic Button Effect (will be enhanced with JS) */
+.magnetic {
+  transition: transform 0.3s cubic-bezier(0.23, 1, 0.32, 1);
+}
+
+/* Gradient Borders */
+.border-gradient-gentleman {
+  border: 2px solid transparent;
+  background: linear-gradient(rgb(252, 250, 247), rgb(252, 250, 247)) padding-box,
+              var(--gradient-gentleman) border-box;
+}
+
+.border-gradient-gold {
+  border: 2px solid transparent;
+  background: linear-gradient(rgb(252, 250, 247), rgb(252, 250, 247)) padding-box,
+              var(--gradient-gold) border-box;
+}
+
+/* Backdrop Blur Variants */
+.backdrop-blur-subtle {
+  backdrop-filter: blur(var(--blur-sm));
+  -webkit-backdrop-filter: blur(var(--blur-sm));
+}
+
+.backdrop-blur-medium {
+  backdrop-filter: blur(var(--blur-md));
+  -webkit-backdrop-filter: blur(var(--blur-md));
+}
+
+.backdrop-blur-strong {
+  backdrop-filter: blur(var(--blur-lg));
+  -webkit-backdrop-filter: blur(var(--blur-lg));
+}
+
+/* Custom Scrollbar Premium */
+::-webkit-scrollbar {
+  width: 12px;
+  height: 12px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--cream-200);
+  border-radius: 8px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: linear-gradient(180deg, var(--mocha-400), var(--mocha-600));
+  border-radius: 8px;
+  border: 2px solid var(--cream-200);
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: linear-gradient(180deg, var(--mocha-500), var(--mocha-700));
+}
+
+/* Selection Colors */
+::selection {
+  background: var(--mocha-500);
+  color: var(--cream-50);
+}
+
+::-moz-selection {
+  background: var(--mocha-500);
+  color: var(--cream-50);
+}

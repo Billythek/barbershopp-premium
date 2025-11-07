@@ -1,0 +1,206 @@
+// BarberShopp - Prisma Schema
+// Gestion complète de salon de coiffure avec booking client
+
+generator client {
+  provider = "prisma-client-js"
+  output   = "../lib/generated/prisma"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+// ============================================
+// AUTHENTICATION & USERS
+// ============================================
+
+model User {
+  id            String    @id @default(cuid())
+  email         String    @unique
+  password      String
+  name          String
+  role          UserRole  @default(BARBER)
+  emailVerified DateTime?
+  image         String?
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+
+  barber Barber?
+
+  @@map("users")
+}
+
+enum UserRole {
+  ADMIN
+  BARBER
+}
+
+// ============================================
+// BARBER PROFILE
+// ============================================
+
+model Barber {
+  id          String   @id @default(cuid())
+  userId      String   @unique
+  name        String
+  nameEn      String? // English name
+  bio         String?
+  bioEn       String?
+  phone       String?
+  image       String?
+  specialties String? // Comma-separated values: "Fade,Beard,Kids"
+  color       String   @default("#3B82F6") // Pour le calendrier
+  isActive    Boolean  @default(true)
+  order       Int      @default(0) // Ordre d'affichage
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  user          User           @relation(fields: [userId], references: [id], onDelete: Cascade)
+  appointments  Appointment[]
+  availabilities Availability[]
+
+  @@map("barbers")
+}
+
+// ============================================
+// AVAILABILITY (Horaires du barbier)
+// ============================================
+
+model Availability {
+  id        String   @id @default(cuid())
+  barberId  String
+  dayOfWeek Int // 0=Dimanche, 1=Lundi, ..., 6=Samedi
+  startTime String // "09:00"
+  endTime   String // "18:00"
+  isActive  Boolean  @default(true)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  barber Barber @relation(fields: [barberId], references: [id], onDelete: Cascade)
+
+  @@unique([barberId, dayOfWeek])
+  @@map("availabilities")
+}
+
+// ============================================
+// CLIENTS
+// ============================================
+
+model Client {
+  id        String   @id @default(cuid())
+  firstName String
+  lastName  String
+  email     String   @unique
+  phone     String
+  notes     String? // Notes internes (allergies, préférences)
+  language  String   @default("fr") // "fr" ou "en"
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  appointments Appointment[]
+
+  @@map("clients")
+}
+
+// ============================================
+// SERVICES
+// ============================================
+
+model Service {
+  id          String   @id @default(cuid())
+  name        String
+  nameEn      String? // English name
+  description String?
+  descriptionEn String?
+  duration    Int // En minutes (30, 45, 60, etc.)
+  price       Float // Prix en euros
+  category    String? // "Coupe", "Barbe", "Combo", etc.
+  isActive    Boolean  @default(true)
+  order       Int      @default(0) // Ordre d'affichage
+  color       String   @default("#10B981") // Couleur pour l'affichage
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  appointments Appointment[]
+
+  @@map("services")
+}
+
+// ============================================
+// APPOINTMENTS (Rendez-vous)
+// ============================================
+
+model Appointment {
+  id        String            @id @default(cuid())
+  barberId  String
+  clientId  String
+  serviceId String
+  date      DateTime // Date et heure du RDV
+  endTime   DateTime // Calculé automatiquement (date + service.duration)
+  status    AppointmentStatus @default(CONFIRMED)
+  notes     String? // Notes du client
+  notificationSent Boolean @default(false) // Email de confirmation envoyé
+  reminderSent24h Boolean @default(false) // Rappel 24h envoyé
+  reminderSent1h Boolean @default(false) // Rappel SMS 1h envoyé
+  canceledAt DateTime?
+  cancelReason String?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  barber  Barber  @relation(fields: [barberId], references: [id], onDelete: Cascade)
+  client  Client  @relation(fields: [clientId], references: [id], onDelete: Cascade)
+  service Service @relation(fields: [serviceId], references: [id], onDelete: Cascade)
+
+  @@index([barberId, date])
+  @@index([clientId])
+  @@index([date])
+  @@map("appointments")
+}
+
+enum AppointmentStatus {
+  CONFIRMED // Confirmé
+  IN_PROGRESS // En cours
+  COMPLETED // Terminé
+  CANCELED // Annulé
+  NO_SHOW // Client absent
+}
+
+// ============================================
+// NOTIFICATIONS LOG
+// ============================================
+
+model NotificationLog {
+  id        String           @id @default(cuid())
+  type      NotificationType
+  recipient String // Email ou numéro de téléphone
+  subject   String?
+  message   String
+  status    String // "sent", "failed", "pending"
+  error     String?
+  sentAt    DateTime?
+  createdAt DateTime         @default(now())
+
+  @@map("notification_logs")
+}
+
+enum NotificationType {
+  EMAIL_CONFIRMATION
+  EMAIL_REMINDER_24H
+  SMS_REMINDER_1H
+  EMAIL_CANCELLATION
+  EMAIL_THANK_YOU
+}
+
+// ============================================
+// SETTINGS (Configuration globale)
+// ============================================
+
+model Settings {
+  id    String @id @default(cuid())
+  key   String @unique
+  value String
+  updatedAt DateTime @updatedAt
+
+  @@map("settings")
+}
