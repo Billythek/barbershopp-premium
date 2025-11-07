@@ -3,7 +3,8 @@
 import { motion } from "framer-motion"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
-import { Calendar, Clock, Scissors, MapPin, Phone, Mail, Sparkles, Award, Users, Check } from "lucide-react"
+import { Calendar, Clock, Scissors, MapPin, Phone, Mail, Sparkles, Award, Users } from "lucide-react"
+import { useState, useEffect } from "react"
 
 const services = [
   { name: "Coupe Classique", price: 35, duration: 45, description: "Coupe aux ciseaux traditionnelle", icon: Scissors },
@@ -27,10 +28,45 @@ const stats = [
 ]
 
 export default function BookingPage() {
+  const [scrolled, setScrolled] = useState(false)
+  const [prevScrollPos, setPrevScrollPos] = useState(0)
+  const [visible, setVisible] = useState(true)
+
+  useEffect(() => {
+    const handleScroll = () => {
+      const currentScrollPos = window.scrollY
+      
+      // Set scrolled state for style changes
+      setScrolled(currentScrollPos > 20)
+      
+      // Show navbar when scrolling up, hide when scrolling down
+      if (currentScrollPos < prevScrollPos || currentScrollPos < 10) {
+        setVisible(true)
+      } else if (currentScrollPos > 80 && currentScrollPos > prevScrollPos) {
+        setVisible(false)
+      }
+      
+      setPrevScrollPos(currentScrollPos)
+    }
+
+    window.addEventListener('scroll', handleScroll)
+    return () => window.removeEventListener('scroll', handleScroll)
+  }, [prevScrollPos])
+
   return (
     <div className="min-h-screen bg-gradient-to-br from-[rgb(252,250,247)] via-[rgb(245,230,211)]/30 to-[rgb(252,250,247)]">
       {/* Header */}
-      <header className="sticky top-0 z-50 glass-premium border-b border-[rgb(245,230,211)]/20">
+      <motion.header
+        initial={{ y: 0 }}
+        animate={{ 
+          y: visible ? 0 : -100,
+          opacity: visible ? 1 : 0
+        }}
+        transition={{ duration: 0.3, ease: "easeInOut" }}
+        className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
+          scrolled ? 'glass-premium shadow-lg border-b border-[rgb(245,230,211)]/20' : 'glass-premium border-b border-[rgb(245,230,211)]/20'
+        }`}
+      >
         <div className="container mx-auto px-4 py-4">
           <div className="flex items-center justify-between">
             <div>
@@ -42,19 +78,19 @@ export default function BookingPage() {
               </p>
             </div>
             <div className="flex gap-2">
-              <Button variant="outline" size="sm" className="border-gradient-gentleman">FR</Button>
-              <Button variant="ghost" size="sm">EN</Button>
+              <Button variant="outline" size="sm" className="border-gradient-gentleman cursor-pointer">FR</Button>
+              <Button variant="ghost" size="sm" className="cursor-pointer">EN</Button>
             </div>
           </div>
         </div>
-      </header>
+      </motion.header>
 
       {/* Hero Section */}
       <motion.section
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ duration: 0.8 }}
-        className="container mx-auto px-4 py-20 md:py-32"
+        className="container mx-auto px-4 py-20 md:py-32 pt-32 md:pt-40"
       >
         <div className="max-w-5xl mx-auto text-center">
           {/* Badge */}
@@ -112,7 +148,7 @@ export default function BookingPage() {
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.5, delay: 1 + index * 0.1 }}
-                className="glass-premium p-6 rounded-2xl hover-lift-3d"
+                className="glass-premium p-6 rounded-2xl hover-lift-3d cursor-pointer"
               >
                 <div className="text-4xl md:text-5xl font-bold text-gradient-gentleman mb-2">
                   {stat.value}{stat.suffix}
@@ -207,12 +243,12 @@ export default function BookingPage() {
             <div className="grid md:grid-cols-2 gap-8">
               {features.map((feature, index) => (
                 <motion.div
-                  key={index}
+                  key={feature.text}
                   initial={{ opacity: 0, x: 100 }}
                   whileInView={{ opacity: 1, x: 0 }}
                   transition={{ duration: 0.6, delay: index * 0.1 }}
                   viewport={{ once: true }}
-                  className="flex items-start gap-4"
+                  className="flex items-start gap-4 cursor-pointer"
                 >
                   <motion.div
                     whileHover={{ rotate: 360, scale: 1.2 }}
@@ -253,7 +289,7 @@ export default function BookingPage() {
                   whileInView={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.5, delay: index * 0.1 }}
                   viewport={{ once: true }}
-                  className="flex items-start gap-4 p-4 rounded-xl hover:bg-[rgb(245,230,211)]/20 transition-all"
+                  className="flex items-start gap-4 p-4 rounded-xl hover:bg-[rgb(245,230,211)]/20 transition-all cursor-pointer"
                 >
                   <div className="w-14 h-14 rounded-xl bg-gradient-to-br from-[rgb(10,22,40)] to-[rgb(139,69,19)] flex items-center justify-center shadow-lg">
                     <item.icon className="w-7 h-7 text-white" />

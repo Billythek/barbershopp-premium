@@ -64,7 +64,7 @@ export function AdminSidebar() {
         whileHover={{ scale: 1.05 }}
         whileTap={{ scale: 0.95 }}
         onClick={() => setIsOpen(!isOpen)}
-        className="lg:hidden fixed top-4 left-4 z-50 p-3 rounded-lg glass shadow-gentleman"
+        className="lg:hidden fixed top-4 left-4 z-50 p-3 rounded-lg glass shadow-gentleman cursor-pointer"
       >
         <AnimatePresence mode="wait">
           {isOpen ? (
@@ -134,7 +134,7 @@ export function AdminSidebar() {
                   href={item.href}
                   onClick={() => setIsOpen(false)}
                   className={cn(
-                    "group relative flex items-center gap-3 px-4 py-3 rounded-lg text-sm font-medium transition-all duration-200",
+                    "group relative flex items-center gap-3 px-4 py-3 rounded-lg text-sm font-medium transition-all duration-200 cursor-pointer",
                     isActive
                       ? "bg-sidebar-primary text-sidebar-primary-foreground shadow-gentleman glow-cognac"
                       : "text-sidebar-foreground/80 hover:bg-sidebar-accent hover:text-sidebar-accent-foreground"
@@ -193,7 +193,7 @@ export function AdminSidebar() {
           </Button>
 
           {/* User Profile */}
-          <div className="flex items-center gap-3 p-3 rounded-lg glass">
+          <div className="flex items-center gap-3 p-3 rounded-lg glass cursor-pointer hover:bg-sidebar-accent/50 transition-all">
             <motion.div
               whileHover={{ scale: 1.1 }}
               className="relative w-10 h-10 rounded-full bg-gradient-gentleman flex items-center justify-center shadow-gentleman"
